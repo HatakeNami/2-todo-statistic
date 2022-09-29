@@ -8,18 +8,35 @@ readLine(processCommand);
 
 function getFiles() {
     const filePaths = getAllFilePathsWithExtension(process.cwd(), 'js');
-    return filePaths.map(path => readFile(path));
-}
+    return filePaths.map(path => readFile(path));}
 
 function processCommand(command) {
     switch (command) {
         case 'exit':
             process.exit(0);
             break;
+        case 'show':
+            console.log(showTodo());
+            break;
+        case 'important':
+            importantTodo()
+            break;
         default:
-            console.log('wrong command');
+            console.log("Def")
             break;
     }
+}
+
+
+function showTodo(){
+    let temp = getFiles().map(str => str.split("\r\n"));
+    temp = temp.flat(Infinity).filter(a => a.includes("// TODO") && !a.includes("temp ="));
+    temp = temp.map(a => a.slice(a.indexOf("/")))
+    return temp;
+}
+
+function importantTodo(){
+    console.log(showTodo().filter(a => a.includes("!")));
 }
 
 // TODO you can do it!
